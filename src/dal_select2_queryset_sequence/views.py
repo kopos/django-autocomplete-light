@@ -29,6 +29,8 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
     and the fields of :py:mod:`dal_contenttypes`, suits generic relation
     autocompletes.
     """
+    def get_result_label(self, item):
+        return six.text_type(item)
 
     def get_results(self, context):
         """
@@ -48,6 +50,6 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
             'text': capfirst(model._meta.verbose_name),
             'children': [{
                 'id': self.get_result_value(result),
-                'text': six.text_type(result),
+                'text': self.get_result_label(result),
             } for result in results]
         } for model, results in groups.items()]
